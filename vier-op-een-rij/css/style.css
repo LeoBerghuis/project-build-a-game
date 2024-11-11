@@ -1,0 +1,28 @@
+body {
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.bord {
+    width: 34em;
+    height: 33em;
+    background-color: blue;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle {
+    background-color: black;
+    width: 6em;
+    height: 6em;
+    border-radius: 50%;
+}
