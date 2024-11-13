@@ -1,30 +1,12 @@
-const one = document.querySelector('#one');
-const two = document.querySelector('#two');
-const three = document.querySelector('#three');
-const four = document.querySelector('#four');
-const five = document.querySelector('#five');
-const six = document.querySelector('#six');
-const seven = document.querySelector('#seven');
-const eight = document.querySelector('#eight');
-const nine = document.querySelector('#nine');
-const ten = document.querySelector('#ten');
-const eleven = document.querySelector('#eleven');
-const twelve = document.querySelector('#twelve');
-const thirteen = document.querySelector('#thirteen');
-const fourteen = document.querySelector('#fourteen');
-const fifteen = document.querySelector('#fifteen');
-const sixteen = document.querySelector('#sixteen');
-const seventeen = document.querySelector('#seventeen');
-const eighteen = document.querySelector('#eighteen');
-const nineteen = document.querySelector('#nineteen');
-const twenty = document.querySelector('#twenty');
-const twentyOne = document.querySelector('#twentyone');
-const twentyTwo = document.querySelector('#twentytwo');
-const twentyThree = document.querySelector('#twentythree');
-const twentyFour = document.querySelector('#twentyfour');
-const twentyFive = document.querySelector('#twentyfive');
+const rows = document.querySelectorAll("tr");
+const red = `<img src="/vier-op-een-rij/img/download-removebg-preview.png">`;
+const yellow = `<img src="/vier-op-een-rij/img/images-removebg-preview (1).png">`;
 
 
-function testFunction() {
-    alert('works')
+for (let i = 0; i < rows.length; i++) {
+    let table = '';
+    for (let j = 0; j < 7; j++) {
+        table += red;
+    }
+    rows[i].innerHTML = table;
 }
