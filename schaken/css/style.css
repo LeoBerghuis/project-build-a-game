@@ -1,0 +1,38 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin-left:auto;
+    margin-right:auto;
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: linear-gradient(rgb(120, 68, 0), rgb(219, 152, 43), rgb(120, 68, 0));
+}
+
+.game-container {
+    position: relative;
+    height: 640px;
+    width: 640px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 55px;
+    
+}
+
+table {
+    height:640px;
+    width:640px;
+    border: solid 6px rgb(155, 73, 38);
+    background-image: url(/schaken/img/Background.png)
+}
+
+td {
+    margin-left:auto;
+    margin-right:auto;
+    width:40px;
+    height:40px;
+}
