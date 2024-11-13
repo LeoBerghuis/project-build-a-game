@@ -1,0 +1,42 @@
+* {
+    font-family:'Times New Roman', Times, serif;
+}
+
+.center-div {
+    position:relative;
+    margin-left:auto;
+    margin-right:auto;
+    text-align: center;
+}
+
+body {
+    background-color: rgb(197, 132, 78);
+}
+
+.options {
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 250px;
+    height: 10px;
+    width: 640px;
+    padding:5%;
+    overflow: hidden;
+    background-color: rgb(232, 165, 111);
+
+}
+
+a {
+    text-decoration: none;
+    color: rgb(87, 56, 15);
+    font-size: 25px;
+    padding: 5%;
+    border: solid 2px rgb(66, 37, 0);
+}
+
+a:hover {
+    text-decoration: none;
+    color: rgb(234, 193, 140);
+    font-size: 25px;
+    padding: 5%;
+    border: solid 2px rgb(187, 113, 16);
+}
