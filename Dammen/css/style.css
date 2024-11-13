@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #efdcc3;
+}
+.navbar {
+    width: 100vw;
+    background-color: brown;
+    padding: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.home-button {
+    background-color: burlywood;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: large;
+}
+
+.home-button:hover {
+    cursor: pointer;
+    color: brown;
+}
+
+.logo {
+    background-color: burlywood;
+    border: 2px solid black;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: large;
+}
+.container {
+    display: grid;
+    grid-template-rows: repeat(8, 75px);
+    grid-template-columns: repeat(8, 75px);
+    border: 15px solid brown;
+    justify-content: center;
+    width: fit-content;
+    margin: 0 auto;
+    box-shadow: 5px 5px 10px black;
+}
+.item {
+    width: 75px;
+    height: 75px;
+    position: relative;
+}
+.item1 {
+    background-color: brown;
+}
+
+.item2 {
+    background-color: burlywood;
+}
+
+.pawn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        position: absolute;
+        top: 7.5px;
+        left: 7.5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.397);
+}
+
+.pawn.white {
+    background-color: white;
+    background:
+    radial-gradient(black 15%, transparent 16%) 0 0,
+    radial-gradient(black 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+    background-color: white;
+    background-size: 5px 5px;
+}
+
+.pawn.black {
+    background-color: black;
+    background:
+    radial-gradient(black 15%, transparent 16%) 0 0,
+    radial-gradient(black 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+    background-color:#282828;
+    background-size:5px 5px;
+}
