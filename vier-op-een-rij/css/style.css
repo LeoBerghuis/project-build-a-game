@@ -6,6 +6,7 @@ body {
     height: 100vh;
     width: 100vw;
     background-color: #efdcc3;
+    box-sizing: border-box;
 }
 
 .navbar {
@@ -43,9 +44,11 @@ body {
 }
 
 table {
-    width: 94vh;
+    width: 53em;
+    display: grid;
     border-spacing: 0;
     border: 2vh solid royalblue;
+    border-collapse: collapse;
 }
 
 tbody {
@@ -53,19 +56,10 @@ tbody {
 }
 
 td {
-    width: calc(90vh / 7);
+    width: calc(90vh / 8);
     background: royalblue;
     cursor: pointer;
 
-}
-
-td:before {
-    content: "";
-    display: block;
-    width: calc(90vh / 7);
-    height: calc(90vh / 7);
-    border-radius: 50%;
-    background: white;
 }
 
 img {
