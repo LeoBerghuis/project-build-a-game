@@ -95,3 +95,7 @@
     background-color:#282828;
     background-size:5px 5px;
 }
+
+.highlighted {
+    background-color: blue;
+}
