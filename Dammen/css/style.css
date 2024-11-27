@@ -97,5 +97,10 @@
 }
 
 .highlighted {
-    background-color: blue;
+    background-color: bisque;
+}
+
+.highlightedTiles {
+    background-color: rgba(0, 255, 229, 0.544);
+    cursor: pointer;
 }

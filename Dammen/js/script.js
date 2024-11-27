@@ -52,8 +52,9 @@ for (let i = 0; i < pawns.length; i++) {
         if (pawn.classList.contains("highlighted")) {
             clearSelect();
         } else {
-            clearSelect()
+            clearSelect();
             pawn.classList.add("highlighted");
+            highlightTiles()
             console.log(pawns[i])
             console.log(board.map(function (value, index) {
                 const foundIndex = value.findIndex(function (value2) {
@@ -76,5 +77,33 @@ function clearSelect() {
     for (let j = 0; j < pawns.length; j++) {
         const pawn = pawns[j];
         pawn.classList.remove("highlighted");
+    }
+    for (let i = 0; i < board.length; i++) {
+        const row = board[i];
+        for (let j = 0; j < row.length; j++) {
+            const tile = board[i][j];
+            if (tile === 0) {
+                const baseIndex = i * 8;
+                const itemIndex = baseIndex + j
+                const tileElement = document.querySelectorAll(".item")[itemIndex];
+                tileElement.classList.remove("highlightedTiles");
+            }
+        }
+    }
+
+}
+
+function highlightTiles() {
+    for (let i = 0; i < board.length; i++) {
+        const row = board[i];
+        for (let j = 0; j < row.length; j++) {
+            const tile = board[i][j];
+            if (tile === 0) {
+                const baseIndex = i * 8;
+                const itemIndex = baseIndex + j
+                const tileElement = document.querySelectorAll(".item")[itemIndex];
+                tileElement.classList.add("highlightedTiles");
+            }
+        }
     }
 }
