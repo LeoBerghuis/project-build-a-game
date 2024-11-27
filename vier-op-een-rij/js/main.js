@@ -1,16 +1,17 @@
 const gameBoard = document.querySelector(".board");
 const playerTurn = document.querySelector('.player-turn');
 const cell = document.querySelector('.cell')
-const rowOneBtn = document.querySelector('.row-one').addEventListener('click', () => rowOne(0, firstPlayerTurn === 'red' ? 1 : 2));
-const rowTwoBtn = document.querySelector('.row-two').addEventListener('click', () => rowOne(1, firstPlayerTurn === 'red' ? 1 : 2));
-const rowThreeBtn = document.querySelector('.row-three').addEventListener('click', () => rowOne(2, firstPlayerTurn === 'red' ? 1 : 2));
-const rowFourBtn = document.querySelector('.row-four').addEventListener('click', () => rowOne(3, firstPlayerTurn === 'red' ? 1 : 2));
-const rowFiveBtn = document.querySelector('.row-five').addEventListener('click', () => rowOne(4, firstPlayerTurn === 'red' ? 1 : 2));
-const rowSixBtn = document.querySelector('.row-six').addEventListener('click', () => rowOne(5, firstPlayerTurn === 'red' ? 1 : 2));
-const rowSevenBtn = document.querySelector('.row-seven').addEventListener('click', () => rowOne(6, firstPlayerTurn === 'red' ? 1 : 2));
+const rowOneBtn = document.querySelector('.row-one').addEventListener('click', () => placeCell(0, firstPlayerTurn === 'red' ? 1 : 2));
+const rowTwoBtn = document.querySelector('.row-two').addEventListener('click', () => placeCell(1, firstPlayerTurn === 'red' ? 1 : 2));
+const rowThreeBtn = document.querySelector('.row-three').addEventListener('click', () => placeCell(2, firstPlayerTurn === 'red' ? 1 : 2));
+const rowFourBtn = document.querySelector('.row-four').addEventListener('click', () => placeCell(3, firstPlayerTurn === 'red' ? 1 : 2));
+const rowFiveBtn = document.querySelector('.row-five').addEventListener('click', () => placeCell(4, firstPlayerTurn === 'red' ? 1 : 2));
+const rowSixBtn = document.querySelector('.row-six').addEventListener('click', () => placeCell(5, firstPlayerTurn === 'red' ? 1 : 2));
+const rowSevenBtn = document.querySelector('.row-seven').addEventListener('click', () => placeCell(6, firstPlayerTurn === 'red' ? 1 : 2));
+const settignsBtn = document.querySelector('.settings').addEventListener('click', openSettings);
+const settingsWindow = document.querySelector('.settings-popup');
 
-
-const board = [
+let board = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
@@ -21,14 +22,26 @@ const board = [
 
 let firstPlayerTurn = Math.random() < 0.5 ? 'red' : 'yellow';
 let counter = 0;
-const yellow = 2;
-const red = 1;
 
-for (let i = 0; i < board.length; i++) {
-    const row = board[i];
-    for (let j = 0; j < row.length; j++) {
-        gameBoard.innerHTML += `<div class="cell cell-${counter}"></div>`;
-        counter++
+window.onload = loadBoard();
+
+function loadBoard() {
+    board = [
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0]
+    ];
+    counter = 0;
+    gameBoard.innerHTML = ``;
+    for (let i = 0; i < board.length; i++) {
+        const row = board[i];
+        for (let j = 0; j < row.length; j++) {
+            gameBoard.innerHTML += `<div class="cell cell-${counter}"></div>`;
+            counter++
+        }
     }
 }
 
@@ -38,7 +51,7 @@ function getCell(counter) {
     return document.querySelector(`.cell-${counter}`);
 }
 
-function rowOne(column) {
+function placeCell(column) {
     let redWin
     let yellowWin
     if (firstPlayerTurn === 'red') {
@@ -50,9 +63,9 @@ function rowOne(column) {
                 firstPlayerTurn = 'yellow';
                 playerTurn.innerText = `Yellow player turn`;
                 redWin = checkWinner(1);
-                console.log(redWin)
                 if (redWin === true) {
-                    alert('Red wins!');
+                    console.log('Red wins!');
+                    setTimeout(3000, loadBoard());
                 }
                 break;
             }
@@ -68,7 +81,8 @@ function rowOne(column) {
                 playerTurn.innerText = `Red player turn`
                 yellowWin = checkWinner(2);
                 if (yellowWin === true) {
-                    alert('yellow wins!');
+                    console.log('yellow wins');
+                    setTimeout(3000, loadBoard());
                 }
                 break;
             }
@@ -82,40 +96,39 @@ function checkWinner(player) {
         for (let c = 0; c < board[r].length; c++) {
             if (board[r][c] === player) {
 
-               // Horizontal Check (right)
-               if (c <= 6 &&  // Ensure we don't go out of bounds horizontally
-                board[r][c + 1] === player &&
-                board[r][c + 2] === player &&
-                board[r][c + 3] === player) {
-                return true;  // Four in a row horizontally
-            }
+                if (c <= 3 &&
+                    board[r][c + 1] === player &&
+                    board[r][c + 2] === player &&
+                    board[r][c + 3] === player) {
+                    return true;
+                }
 
-            // Vertical Check (down)
-            if (r <= 5 &&  // Ensure we don't go out of bounds vertically
-                board[r + 1][c] === player &&
-                board[r + 2][c] === player &&
-                board[r + 3][c] === player) {
-                return true;  // Four in a row vertically
-            }
+                if (r <= 2 &&
+                    board[r + 1][c] === player &&
+                    board[r + 2][c] === player &&
+                    board[r + 3][c] === player) {
+                    return true;
+                }
 
-            // Diagonal Check (down-right)
-            if (r <= 5 && c <= 6 &&  // Ensure we don't go out of bounds
-                board[r + 1][c + 1] === player &&
-                board[r + 2][c + 2] === player &&
-                board[r + 3][c + 3] === player) {
-                return true;  // Four in a row diagonally (down-right)
-            }
+                if (r <= 2 && c <= 3 &&
+                    board[r + 1][c + 1] === player &&
+                    board[r + 2][c + 2] === player &&
+                    board[r + 3][c + 3] === player) {
+                    return true;
+                }
 
-            // Diagonal Check (up-right)
-            if (r >= 5 && c <= 6 &&  // Ensure we don't go out of bounds
-                board[r - 1][c + 1] === player &&
-                board[r - 2][c + 2] === player &&
-                board[r - 3][c + 3] === player) {
-                return true;  // Four in a row diagonally (up-right)
-            }
+                if (r >= 3 && c <= 3 &&
+                    board[r - 1][c + 1] === player &&
+                    board[r - 2][c + 2] === player &&
+                    board[r - 3][c + 3] === player) {
+                    return true;
+                }
             }
         }
     }
-   return false
+    return false
 }
 
+function openSettings() {
+    settingsWindow.classList.toggle('active');
+}

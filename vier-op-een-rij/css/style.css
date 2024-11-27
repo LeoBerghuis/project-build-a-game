@@ -3,6 +3,7 @@
     margin: 0;
     box-sizing: border-box;
 }
+
 body {
     margin: 0;
     display: flex;
@@ -48,6 +49,64 @@ body {
     padding: 5px;
     border-radius: 10px;
     font-size: large;
+    display: flex;
+}
+
+.right {
+    display: flex;
+    gap: 3px;
+}
+
+.settings {
+    background-color: burlywood;
+    border: 2px solid black;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 10px;
+    display: flex;
+}
+
+.settings-popup {
+    width: 20em;
+    height: 20em;
+    background-color: burlywood;
+    position: absolute;
+    right: 5em;
+    top: 3em;
+    display: none;
+    overflow: auto;
+    gap: 8px;
+}
+
+.team {
+    margin: 8px 0px 8px 6px;
+    font-size: 1.6rem;
+    padding-bottom: 9px;
+    border-bottom: 1px solid black;
+}
+
+.username {
+    font-size: 1rem;
+}
+
+.bio {
+    font-size: 0.8rem;
+}
+
+.level {
+    font-size: 1rem;
+}
+
+.add-team {
+    display: none;
+}
+
+.add-team.active {
+    display: block;
+}
+
+.settings-popup.active {
+    display: block;
 }
 
 .buttons {
@@ -64,8 +123,8 @@ body {
     background-color: blue;
     padding: 20px;
     border-radius: 10px;
-    width: 30vw;
-    height: 26vw;
+    width: 27em;
+    height: 24em;
     justify-content: center;
 
 }
@@ -76,4 +135,18 @@ body {
     background-color: white;
     border-radius: 50%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 455px) {
+    .board {
+        width: 24em;
+        height: 20em;
+        gap: 0px;
+    }
+
+    .cell {
+        width: 40px;
+        height: 40px;
+
+    }
 }
