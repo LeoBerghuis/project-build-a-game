@@ -1,5 +1,9 @@
 console.log("main loaded")
 const checkersBoard = document.querySelector(".board");
+let selectedPawn = {
+    x: null,
+    y: null
+}
 const board = [
     [2, 0, 2, 0, 2, 0, 2, 0],
     [0, 2, 0, 2, 0, 2, 0, 2],
@@ -12,7 +16,7 @@ const board = [
 ];
 
 for (let i = 0; i < board.length; i++) {
-    const row = board[i]
+    const row = board[i];
     const isRowEven = i % 2;
     for (let j = 0; j < row.length; j++) {
         const isEven = j % 2;
@@ -40,3 +44,37 @@ for (let i = 0; i < board.length; i++) {
     }
 }
 
+const pawns = document.querySelectorAll(".white");
+
+for (let i = 0; i < pawns.length; i++) {
+    const pawn = pawns[i];
+    pawn.addEventListener('click', function () {
+        if (pawn.classList.contains("highlighted")) {
+            clearSelect();
+        } else {
+            clearSelect()
+            pawn.classList.add("highlighted");
+            console.log(pawns[i])
+            console.log(board.map(function (value, index) {
+                const foundIndex = value.findIndex(function (value2) {
+                    if (value2 === 1) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+                return {
+                    x: index,
+                    y: foundIndex,
+                }
+            }));
+        }
+    });
+}
+
+function clearSelect() {
+    for (let j = 0; j < pawns.length; j++) {
+        const pawn = pawns[j];
+        pawn.classList.remove("highlighted");
+    }
+}

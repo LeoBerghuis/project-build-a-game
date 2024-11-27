@@ -12,6 +12,44 @@ body {
     background-image: linear-gradient(rgb(120, 68, 0), rgb(219, 152, 43), rgb(120, 68, 0));
 }
 
+nav {
+    background-color: rgb(245, 165, 74);
+    border: solid 2px rgb(120, 68, 0);
+    height: 48px;
+}
+
+.button {
+    margin-left: 15px;
+    margin-top: 6px;
+    background-color: rgb(168, 147, 104);
+    border: 3px solid rgb(103, 69, 1);
+    border-radius: 12px;
+    padding: 0.25%;
+}
+
+.link{
+    font-size: 150%;
+    text-decoration: none;
+    color: rgb(255, 230, 204)
+}
+
+.button:hover {
+    background-color: rgb(210, 191, 151);
+    border: 3px solid rgb(103, 69, 1);
+    border-radius: 12px;
+    padding: 0.25%;
+    color: rgb(229, 118, 0)
+}
+
+h1 {
+    text-align: center;
+    margin-top: -30px;
+    color: rgb(255, 230, 204);
+    font-size: 24px;
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: rgb(120, 68, 0);
+}
+
 .game-container {
     position: relative;
     height: 640px;
@@ -19,20 +57,25 @@ body {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 55px;
-    
+    margin-top: px;
+    border: solid 10px rgb(155, 73, 38);
+    background-color: rgb(155, 73, 38);
 }
 
 table {
     height:640px;
     width:640px;
-    border: solid 6px rgb(155, 73, 38);
-    background-image: url(/schaken/img/Background.png)
 }
 
 td {
-    margin-left:auto;
-    margin-right:auto;
-    width:40px;
-    height:40px;
+    height: 60px;
+    width: 60px;
+}
+
+.whitecell{
+    background-color: rgb(255, 195, 99);
+}
+
+.blackcell{
+    background-color: rgb(224, 130, 35);
 }
