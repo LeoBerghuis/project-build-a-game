@@ -15,6 +15,19 @@ body {
     box-sizing: border-box;
 }
 
+.start-screen {
+    position: absolute;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    height: 100%;
+}
+
+
 .navbar {
     width: 100vw;
     background-color: brown;
@@ -76,6 +89,7 @@ body {
     display: none;
     overflow: auto;
     gap: 8px;
+    border-radius: 25px;
 }
 
 .team {
@@ -85,16 +99,12 @@ body {
     border-bottom: 1px solid black;
 }
 
-.username {
+.username, .level {
     font-size: 1rem;
 }
 
 .bio {
     font-size: 0.8rem;
-}
-
-.level {
-    font-size: 1rem;
 }
 
 .add-team {
@@ -105,8 +115,20 @@ body {
     display: block;
 }
 
-.settings-popup.active {
+.settings-popup.active, .edit-section.active {
     display: block;
+}
+
+.add-player-btn {
+    margin-left: 10px;
+}
+
+.edit-section p {
+    font-size: 1rem;
+}
+
+.edit-section {
+    display: none;
 }
 
 .buttons {

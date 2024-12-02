@@ -1,6 +1,7 @@
 const gameBoard = document.querySelector(".board");
 const playerTurn = document.querySelector('.player-turn');
 const cell = document.querySelector('.cell')
+const playerOption = document.querySelector('#player');
 const rowOneBtn = document.querySelector('.row-one').addEventListener('click', () => placeCell(0, firstPlayerTurn === 'red' ? 1 : 2));
 const rowTwoBtn = document.querySelector('.row-two').addEventListener('click', () => placeCell(1, firstPlayerTurn === 'red' ? 1 : 2));
 const rowThreeBtn = document.querySelector('.row-three').addEventListener('click', () => placeCell(2, firstPlayerTurn === 'red' ? 1 : 2));
@@ -10,7 +11,7 @@ const rowSixBtn = document.querySelector('.row-six').addEventListener('click', (
 const rowSevenBtn = document.querySelector('.row-seven').addEventListener('click', () => placeCell(6, firstPlayerTurn === 'red' ? 1 : 2));
 const settignsBtn = document.querySelector('.settings').addEventListener('click', openSettings);
 const settingsWindow = document.querySelector('.settings-popup');
-
+const startGameBtn = document.querySelector('.start-game').addEventListener('click', startGame);
 let board = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
@@ -24,6 +25,11 @@ let firstPlayerTurn = Math.random() < 0.5 ? 'red' : 'yellow';
 let counter = 0;
 
 window.onload = loadBoard();
+
+function startGame() {
+    const startSreen = document.querySelector('.start-screen');
+    startSreen.style.display = 'none';
+}
 
 function loadBoard() {
     board = [
@@ -64,8 +70,8 @@ function placeCell(column) {
                 playerTurn.innerText = `Yellow player turn`;
                 redWin = checkWinner(1);
                 if (redWin === true) {
-                    console.log('Red wins!');
-                    setTimeout(3000, loadBoard());
+                    alert('Red wins!');
+                    setTimeout(loadBoard, 3000);
                 }
                 break;
             }
@@ -81,8 +87,8 @@ function placeCell(column) {
                 playerTurn.innerText = `Red player turn`
                 yellowWin = checkWinner(2);
                 if (yellowWin === true) {
-                    console.log('yellow wins');
-                    setTimeout(3000, loadBoard());
+                    alert('yellow wins');
+                    setTimeout(loadBoard, 3000);
                 }
                 break;
             }
@@ -126,8 +132,25 @@ function checkWinner(player) {
             }
         }
     }
+    if (checkTie(board)) {
+        alert("It's a tie!");
+        setTimeout(loadBoard, 3000);
+    }
+
     return false
 }
+
+function checkTie(board) {
+    for (let r = 0; r < board.length; r++) {
+        for (let c = 0; c < board[r].length; c++) {
+            if (board[r][c] === 0) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 
 function openSettings() {
     settingsWindow.classList.toggle('active');
