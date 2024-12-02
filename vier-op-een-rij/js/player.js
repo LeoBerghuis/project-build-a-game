@@ -1,4 +1,5 @@
 let player = [];
+
 const buttonHtml = `<button class="add-player-btn">Add new player</button>`
 const addPlayerHtml = ` <div class="add-team">
             <p>Add team</p>
@@ -15,21 +16,22 @@ const addPlayerHtml = ` <div class="add-team">
                   <button class="make-player-btn">Make player</button>
         </div>`;
 
+checkLocalStorage()
 
-
-
-if (JSON.parse(localStorage.getItem("playerObj"))) {
-    const storedPlayers = JSON.parse(localStorage.getItem("playerObj"));
-    player.push(makePlayer("yellow", "PLACEHOLDER", 0, 0, "This is a placeholder bio."));
-    player.push(makePlayer("red", "PLACEHOLDER", 0, 0, "This is another placeholder bio."));
-    player = storedPlayers
-    showAllPlayers();
-
-} else {
-    player.push(makePlayer("yellow", "PLACEHOLDER", 0, 0, "This is a placeholder bio."));
-    player.push(makePlayer("red", "PLACEHOLDER", 0, 0, "This is another placeholder bio."));
-    localStorage.setItem("playerObj", JSON.stringify(player));
+function checkLocalStorage() {
+    if (JSON.parse(localStorage.getItem("playerObj"))) {
+        const storedPlayers = JSON.parse(localStorage.getItem("playerObj"));
+        player = storedPlayers
+        showAllPlayers();
+    
+    } else {
+        player.push(makePlayer("yellow", "PLACEHOLDER", 0, 0, "This is a placeholder bio."));
+        player.push(makePlayer("red", "PLACEHOLDER", 0, 0, "This is another placeholder bio."));
+        localStorage.setItem("playerObj", JSON.stringify(player));
+        showAllPlayers();
+    }
 }
+
 
 
 
@@ -50,17 +52,53 @@ function showAllPlayers() {
     for (let i = 0; i < player.length; i++) {
         const players = player[i];
         newInnerHTML += `
-    <div class="team">
-        ${players.team}
-        <p class="username">${players.username}</p>
-        <p class="bio">${players.bio}</p>
-        <div class="level">
+<div class="team" data-index="${i}">
+    <span class="team-name">${players.team}</span>
+    <p class="username">${players.username}</p>
+    <p class="bio">${players.bio}</p>
+    <div class="level">
         ${'Level: ' + players.level + ' | ' + players.xp + ' xp'}
-        </div>
     </div>
-`;
+    <button class="edit-btn" data-index="${i}">Edit</button>
+    <div class="edit-section" data-index="${i}" style="display: none;">
+        <p class="username-edit">Edit username</p>
+        <input type="text" class="edit-username" value="${players.username}">
+        <p class="bio-edit">Edit bio</p>
+        <input type="text" class="edit-bio" value="${players.bio}">
+        <p class="team-edit">Edit team</p>
+        <input type="text" class="edit-team" value="${players.team}">
+        <button class="save-btn" data-index="${i}">Save</button>
+        <button class="cancel-btn" data-index="${i}">Cancel</button>
+    </div>
+</div>`;
     }
+
     settingsWindow.innerHTML = newInnerHTML + buttonHtml + addPlayerHtml;
+
+
+    const editButtons = document.getElementsByClassName('edit-btn');
+    for (let i = 0; i < editButtons.length; i++) {
+        const index = i; 
+        editButtons[i].addEventListener('click', function () {
+            toggleEditSection(index);
+        });
+    }
+
+    const saveButtons = document.getElementsByClassName('save-btn');
+    for (let i = 0; i < saveButtons.length; i++) {
+        const index = i;
+        saveButtons[i].addEventListener('click', function () {
+            savePlayerEdits(index);
+        });
+    }
+
+    const cancelButtons = document.getElementsByClassName('cancel-btn');
+    for (let i = 0; i < cancelButtons.length; i++) {
+        const index = i; 
+        cancelButtons[i].addEventListener('click', function () {
+            cancelEdit(index);
+        });
+    }
 
     const playerBtn = document.querySelector('.add-player-btn');
     playerBtn.addEventListener('click', showPlayerActive);
@@ -69,13 +107,37 @@ function showAllPlayers() {
     playerAddBtn.addEventListener('click', addPlayer);
 }
 
-
-
-function showPlayerActive() {
-    console.log('teast')
-    const playerActive = document.querySelector('.add-team');
-    playerActive.classList.toggle('active');
+function toggleEditSection(index) {
+    const editSection = document.querySelector(`.edit-section[data-index="${index}"]`);
+    editSection.style.display = editSection.style.display === 'none' ? 'block' : 'none';
 }
+
+function savePlayerEdits(index) {
+    const editSection = document.querySelector(`.edit-section[data-index="${index}"]`);
+
+    const updatedUsername = editSection.querySelector('.edit-username').value;
+    const updatedBio = editSection.querySelector('.edit-bio').value;
+    const updatedTeam = editSection.querySelector('.edit-team').value;
+
+    // Update the specific player
+    player[index].username = updatedUsername;
+    player[index].bio = updatedBio;
+    player[index].team = updatedTeam;
+
+    // Save the updated player array to local storage
+    localStorage.setItem('playerObj', JSON.stringify(player));
+
+    // Re-render the players
+    showAllPlayers();
+}
+
+function cancelEdit(index) {
+    const editSection = document.querySelector(`.edit-section[data-index="${index}"]`);
+    editSection.style.display = 'none';
+}
+
+
+
 
 function addPlayer() {
     const inputValueTeam = document.querySelector('.team-input').value;
@@ -95,8 +157,14 @@ function addPlayer() {
     clearInputs();
 }
 
+function showPlayerActive() {
+    const playerActive = document.querySelector('.add-team');
+    playerActive.classList.toggle('active');
+}
+
 function clearInputs() {
     document.querySelector('.team-input').value = '';
     document.querySelector('.username-input').value = '';
     document.querySelector('.bio-input').value = '';
 }
+
