@@ -11,24 +11,46 @@ const rowSixBtn = document.querySelector('.row-six').addEventListener('click', (
 const rowSevenBtn = document.querySelector('.row-seven').addEventListener('click', () => placeCell(6, firstPlayerTurn === 'red' ? 1 : 2));
 const settignsBtn = document.querySelector('.settings').addEventListener('click', openSettings);
 const settingsWindow = document.querySelector('.settings-popup');
+const playerOne = document.querySelector('#player-select-one');
+const playerTwo = document.querySelector('#player-select-two');
 const startGameBtn = document.querySelector('.start-game').addEventListener('click', startGame);
-let board = [
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0]
-];
-
-let firstPlayerTurn = Math.random() < 0.5 ? 'red' : 'yellow';
+const allPlayers = JSON.parse(localStorage.getItem("playerObj"));
+let activePlayerOne;
+let activePlayerTwo;
+let selectedPlayerOne;
+let selectedPlayerTwo;
+let board;
+let firstPlayerTurn;
 let counter = 0;
 
-window.onload = loadBoard();
+window.onload = () => {
+    for (let i = 0; i < allPlayers.length; i++) {
+        const player = allPlayers[i];
+        playerOne.innerHTML += `<option value="${player.username}">${player.username}</option>`;
+        playerTwo.innerHTML += `<option value="${player.username}">${player.username}</option>`;
+    }
+    loadBoard()
+};
+
 
 function startGame() {
     const startSreen = document.querySelector('.start-screen');
-    startSreen.style.display = 'none';
+    const selectedPlayerUsernameOne = playerOne.value;
+    const selectedPlayerUsernameTwo = playerTwo.value;
+     selectedPlayerOne = allPlayers.find(player => player.username === selectedPlayerUsernameOne);
+     selectedPlayerTwo = allPlayers.find(player => player.username === selectedPlayerUsernameTwo);
+
+    if (selectedPlayerOne === selectedPlayerTwo) {
+        alert('Please select two different players!')
+        return
+    } else {
+        activePlayerOne = selectedPlayerOne;
+        activePlayerTwo = selectedPlayerTwo;
+        startSreen.style.display = 'none';
+        firstPlayerTurn = Math.random() < 0.5 ? selectedPlayerOne : selectedPlayerTwo;
+        playerTurn.innerText = `${firstPlayerTurn.username} turn`;
+    }
+
 }
 
 function loadBoard() {
@@ -51,7 +73,7 @@ function loadBoard() {
     }
 }
 
-playerTurn.innerText = `${firstPlayerTurn} player turn`
+
 
 function getCell(counter) {
     return document.querySelector(`.cell-${counter}`);
@@ -60,18 +82,26 @@ function getCell(counter) {
 function placeCell(column) {
     let redWin
     let yellowWin
-    if (firstPlayerTurn === 'red') {
+    if (firstPlayerTurn === selectedPlayerOne) {
         for (let row = board.length - 1; row >= 0; row--) {
             if (board[row][column] === 0) {
                 board[row][column] = 1;
                 let cellNumber = getCell(row * 7 + column);
                 cellNumber.style.backgroundColor = 'red';
-                firstPlayerTurn = 'yellow';
-                playerTurn.innerText = `Yellow player turn`;
+                firstPlayerTurn = selectedPlayerTwo;
+                playerTurn.innerText = `${selectedPlayerTwo.username} turn`;
                 redWin = checkWinner(1);
-                if (redWin === true) {
-                    alert('Red wins!');
-                    setTimeout(loadBoard, 3000);
+                if (redWin) {
+                    console.log('Red wins!!!!!');
+                    selectedPlayerOne.xp += 100;
+                    while (selectedPlayerOne.xp >= 500) {
+                        selectedPlayerOne.level++;
+                        selectedPlayerOne.xp = 0; 
+                    }  
+                    localStorage.setItem('playerObj', JSON.stringify(allPlayers));  
+                    checkLocalStorage()
+                    showAllPlayers();
+                    setTimeout(loadBoard, 1000);
                 }
                 break;
             }
@@ -83,12 +113,20 @@ function placeCell(column) {
                 board[row][column] = 2;
                 let cellNumber = getCell(row * 7 + column);
                 cellNumber.style.backgroundColor = 'yellow';
-                firstPlayerTurn = 'red';
-                playerTurn.innerText = `Red player turn`
+                firstPlayerTurn = selectedPlayerOne;
+                playerTurn.innerText = `${selectedPlayerOne.username} player turn`
                 yellowWin = checkWinner(2);
-                if (yellowWin === true) {
-                    alert('yellow wins');
-                    setTimeout(loadBoard, 3000);
+                if (yellowWin) {
+                    console.log('Yellow wins!!!')
+                    selectedPlayerTwo.xp+=100;
+                    while (selectedPlayerTwo.xp >= 500) {
+                        selectedPlayerTwo.level++;
+                        selectedPlayerTwo.xp = 0;
+                    }
+                    localStorage.setItem('playerObj', JSON.stringify(allPlayers));  
+                    checkLocalStorage()
+                    showAllPlayers();
+                    setTimeout(loadBoard, 1000);
                 }
                 break;
             }

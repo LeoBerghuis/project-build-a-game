@@ -19,17 +19,15 @@ const addPlayerHtml = ` <div class="add-team">
 checkLocalStorage()
 
 function checkLocalStorage() {
-    if (JSON.parse(localStorage.getItem("playerObj"))) {
-        const storedPlayers = JSON.parse(localStorage.getItem("playerObj"));
-        player = storedPlayers
-        showAllPlayers();
-    
+    const storedPlayers = JSON.parse(localStorage.getItem("playerObj"));
+    if (storedPlayers) {
+        player = storedPlayers;
     } else {
-        player.push(makePlayer("yellow", "PLACEHOLDER", 0, 0, "This is a placeholder bio."));
-        player.push(makePlayer("red", "PLACEHOLDER", 0, 0, "This is another placeholder bio."));
+        player.push(makePlayer("yellow", "Yellow team", 0, 0, "This is a placeholder bio."));
+        player.push(makePlayer("red", "Red team", 0, 0, "This is another placeholder bio."));
         localStorage.setItem("playerObj", JSON.stringify(player));
-        showAllPlayers();
     }
+    showAllPlayers();
 }
 
 
@@ -76,15 +74,15 @@ function showAllPlayers() {
     settingsWindow.innerHTML = newInnerHTML + buttonHtml + addPlayerHtml;
 
 
-    const editButtons = document.getElementsByClassName('edit-btn');
+    const editButtons = document.querySelector('.edit-btn');
     for (let i = 0; i < editButtons.length; i++) {
-        const index = i; 
+        const index = i;
         editButtons[i].addEventListener('click', function () {
             toggleEditSection(index);
         });
     }
 
-    const saveButtons = document.getElementsByClassName('save-btn');
+    const saveButtons = document.querySelector('.save-btn');
     for (let i = 0; i < saveButtons.length; i++) {
         const index = i;
         saveButtons[i].addEventListener('click', function () {
@@ -92,9 +90,9 @@ function showAllPlayers() {
         });
     }
 
-    const cancelButtons = document.getElementsByClassName('cancel-btn');
+    const cancelButtons = document.querySelector('.cancel-btn');
     for (let i = 0; i < cancelButtons.length; i++) {
-        const index = i; 
+        const index = i;
         cancelButtons[i].addEventListener('click', function () {
             cancelEdit(index);
         });
@@ -119,15 +117,12 @@ function savePlayerEdits(index) {
     const updatedBio = editSection.querySelector('.edit-bio').value;
     const updatedTeam = editSection.querySelector('.edit-team').value;
 
-    // Update the specific player
     player[index].username = updatedUsername;
     player[index].bio = updatedBio;
     player[index].team = updatedTeam;
 
-    // Save the updated player array to local storage
     localStorage.setItem('playerObj', JSON.stringify(player));
 
-    // Re-render the players
     showAllPlayers();
 }
 
@@ -135,9 +130,6 @@ function cancelEdit(index) {
     const editSection = document.querySelector(`.edit-section[data-index="${index}"]`);
     editSection.style.display = 'none';
 }
-
-
-
 
 function addPlayer() {
     const inputValueTeam = document.querySelector('.team-input').value;
