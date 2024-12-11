@@ -13,8 +13,11 @@ const settignsBtn = document.querySelector('.settings').addEventListener('click'
 const settingsWindow = document.querySelector('.settings-popup');
 const playerOne = document.querySelector('#player-select-one');
 const playerTwo = document.querySelector('#player-select-two');
+const startSreen = document.querySelector('.start-screen');
+const popup = document.querySelector('.popup');
 const startGameBtn = document.querySelector('.start-game').addEventListener('click', startGame);
 const allPlayers = JSON.parse(localStorage.getItem("playerObj"));
+
 let activePlayerOne;
 let activePlayerTwo;
 let selectedPlayerOne;
@@ -33,8 +36,18 @@ window.onload = () => {
 };
 
 
+function showPopup(text) {
+    popup.innerHTML = text;
+
+    popup.classList.add("active"); 
+    setTimeout(() => {
+        popup.classList.remove("active");
+    }, 3000);
+}
+
+
+
 function startGame() {
-    const startSreen = document.querySelector('.start-screen');
     const selectedPlayerUsernameOne = playerOne.value;
     const selectedPlayerUsernameTwo = playerTwo.value;
      selectedPlayerOne = allPlayers.find(player => player.username === selectedPlayerUsernameOne);
@@ -43,13 +56,21 @@ function startGame() {
     if (selectedPlayerOne === selectedPlayerTwo) {
         alert('Please select two different players!')
         return
-    } else {
+    }  
+
+    if (!selectedPlayerOne.color) {
+        selectedPlayerOne.color = document.querySelector('.player-one-color-picker').value || '#ff0000'; // Default red
+    }
+    if (!selectedPlayerTwo.color) {
+        selectedPlayerTwo.color = document.querySelector('.player-two-color-picker').value || '#ffff00'; // Default yellow
+    }
+
         activePlayerOne = selectedPlayerOne;
         activePlayerTwo = selectedPlayerTwo;
         startSreen.style.display = 'none';
         firstPlayerTurn = Math.random() < 0.5 ? selectedPlayerOne : selectedPlayerTwo;
         playerTurn.innerText = `${firstPlayerTurn.username} turn`;
-    }
+    
 
 }
 
@@ -82,17 +103,20 @@ function getCell(counter) {
 function placeCell(column) {
     let redWin
     let yellowWin
+    let playerOneText;
+    let playerTwoText;
     if (firstPlayerTurn === selectedPlayerOne) {
         for (let row = board.length - 1; row >= 0; row--) {
             if (board[row][column] === 0) {
                 board[row][column] = 1;
                 let cellNumber = getCell(row * 7 + column);
-                cellNumber.style.backgroundColor = 'red';
+                cellNumber.style.backgroundColor = selectedPlayerOne.color;
                 firstPlayerTurn = selectedPlayerTwo;
                 playerTurn.innerText = `${selectedPlayerTwo.username} turn`;
                 redWin = checkWinner(1);
                 if (redWin) {
-                    console.log('Red wins!!!!!');
+                    playerOneText = selectedPlayerOne.username + ' has won the game!';
+                    showPopup(playerOneText);
                     selectedPlayerOne.xp += 100;
                     while (selectedPlayerOne.xp >= 500) {
                         selectedPlayerOne.level++;
@@ -112,12 +136,13 @@ function placeCell(column) {
             if (board[row][column] === 0) {
                 board[row][column] = 2;
                 let cellNumber = getCell(row * 7 + column);
-                cellNumber.style.backgroundColor = 'yellow';
+                cellNumber.style.backgroundColor = selectedPlayerTwo.color;
                 firstPlayerTurn = selectedPlayerOne;
                 playerTurn.innerText = `${selectedPlayerOne.username} player turn`
                 yellowWin = checkWinner(2);
                 if (yellowWin) {
-                    console.log('Yellow wins!!!')
+                    playerTwoText = selectedPlayerTwo.username + ' has won the game!';
+                    showPopup(playerTwoText);
                     selectedPlayerTwo.xp+=100;
                     while (selectedPlayerTwo.xp >= 500) {
                         selectedPlayerTwo.level++;
@@ -133,7 +158,7 @@ function placeCell(column) {
 
         }
     }
-}
+}  
 
 function checkWinner(player) {
     for (let r = 0; r < board.length; r++) {

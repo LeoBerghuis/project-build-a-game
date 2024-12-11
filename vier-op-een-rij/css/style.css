@@ -27,6 +27,9 @@ body {
     height: 100%;
 }
 
+.select-player {
+    text-align: center;
+}
 
 .navbar {
     width: 100vw;
@@ -65,6 +68,16 @@ body {
     display: flex;
 }
 
+.change-player {
+    background-color: burlywood;
+    border: 2px solid black;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: large;
+    display: flex;
+}
+
 .right {
     display: flex;
     gap: 3px;
@@ -89,7 +102,26 @@ body {
     display: none;
     overflow: auto;
     gap: 8px;
+    border-radius: 10px;
+}
+
+.popup {
+    position: absolute;
+    top: -5em;
+    margin: auto;
+    width: 15em;
+    height: 5em;
+    background-color: burlywood;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 25px;
+    border: 1px solid black;
+    transition: top 0.3s ease-in;
+}
+
+.popup.active {
+    top: 1em; 
 }
 
 .team {
@@ -99,7 +131,7 @@ body {
     border-bottom: 1px solid black;
 }
 
-.username, .level {
+.username, .level, .color {
     font-size: 1rem;
 }
 
