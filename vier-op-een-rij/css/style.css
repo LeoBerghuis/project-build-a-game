@@ -27,11 +27,21 @@ body {
     height: 100%;
 }
 
+
 .select-player {
     text-align: center;
+
 }
 
-.navbar {
+.select-player p {
+ margin: 0;
+}
+
+.start-game {
+    margin-top: 0.7rem;
+}
+
+.nav-bar {
     width: 100vw;
     background-color: brown;
     display: flex;
@@ -131,6 +141,10 @@ body {
     border-bottom: 1px solid black;
 }
 
+.team p {
+    margin: 0;
+}
+
 .username, .level, .color {
     font-size: 1rem;
 }
@@ -166,8 +180,9 @@ body {
 
 .buttons {
     margin-left: 1.5vw;
-    gap: 14px;
+    gap: 3px;
     display: flex;
+    margin-bottom: 0.4rem;
 }
 
 .board {
