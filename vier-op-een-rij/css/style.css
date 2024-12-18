@@ -63,6 +63,21 @@ body {
     color: black;
 }
 
+.back-button {
+    display: none;
+}
+
+.back-icon {
+    background-color: burlywood;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: large;
+    text-decoration: none;
+    color: black;
+
+}
+
 .home-button:hover {
     cursor: pointer;
     color: brown;
@@ -176,10 +191,15 @@ body {
 
 .edit-section {
     display: none;
+    margin-top: 1rem;
+}
+
+.player-turn {
+    margin-left: 1em;
 }
 
 .buttons {
-    margin-left: 1.5vw;
+    margin-left: 0.7em;
     gap: 3px;
     display: flex;
     margin-bottom: 0.4rem;
@@ -207,7 +227,20 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+@media screen and (max-width: 481px) {
+    .back-button {
+        display: block;
+    }
+
+    .home-button {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 455px) {
+    
+
+    
     .board {
         width: 24em;
         height: 20em;
@@ -218,5 +251,13 @@ body {
         width: 40px;
         height: 40px;
 
+    }
+
+    .buttons {
+        width: 23em;
+    }
+
+    .buttons button {
+        font-size: 0.7rem;
     }
 }
