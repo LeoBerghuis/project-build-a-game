@@ -4,6 +4,21 @@
     box-sizing: border-box;
     background-color: #efdcc3;
 }
+
+body {
+    overflow: hidden;
+}
+
+.turn-indicator {
+    background-color: burlywood;
+    border: 2px solid black;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: large;
+    margin-left: 10px;
+}
+
 .navbar {
     width: 100vw;
     background-color: brown;
