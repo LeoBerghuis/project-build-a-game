@@ -30,7 +30,6 @@ body {
 
 .select-player {
     text-align: center;
-
 }
 
 .select-player p {
@@ -115,6 +114,7 @@ body {
     padding: 5px;
     border-radius: 10px;
     display: flex;
+    cursor: pointer;
 }
 
 .settings-popup {
