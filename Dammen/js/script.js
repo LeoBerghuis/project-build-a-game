@@ -6,8 +6,8 @@ const turnIndicator = document.querySelector(".turn-indicator"); // Add a DOM el
 let whiteTurn = true;
 let selectedPawn = null;
 let board = [
-    [2, 0, 2, 0, 0, 0, 2, 0],
-    [0, 2, 0, 1, 0, 2, 0, 2],
+    [2, 0, 2, 0, 2, 0, 2, 0],
+    [0, 2, 0, 2, 0, 2, 0, 2],
     [2, 0, 2, 0, 2, 0, 2, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -18,6 +18,7 @@ let board = [
 
 // Load the board
 function loadBoard() {
+    console.log("Loading board state:", JSON.parse(JSON.stringify(board)));
     checkersBoard.innerHTML = ""; // Clear the board
     for (let i = 0; i < board.length; i++) {
         for (let j = 0; j < board[i].length; j++) {
@@ -27,29 +28,28 @@ function loadBoard() {
             tile.dataset.col = j;
 
             if (board[i][j] === 1) {
-                tile.innerHTML = `<div class="pawn white"></div>`;
+                tile.innerHTML = '<div class="pawn white"></div>';
             } else if (board[i][j] === 2) {
-                tile.innerHTML = `<div class="pawn black"></div>`;
+                tile.innerHTML = '<div class="pawn black"></div>';
             } else if (board[i][j] === 3) {
-                tile.innerHTML = `<div class="pawn white"><span class="material-symbols-outlined">crown</span></div>`;
+                tile.innerHTML = '<div class="pawn white"><span class="material-symbols-outlined">crown</span></div>';
             } else if (board[i][j] === 4) {
-                tile.innerHTML = `<div class="pawn black"><span class="material-symbols-outlined">crown</span></div>`;
+                tile.innerHTML = '<div class="pawn black"><span class="material-symbols-outlined">crown</span></div>';
             }
 
             checkersBoard.appendChild(tile);
 
             // Add click listener for pawns
-            if (board[i][j] === 1 && whiteTurn) {
+            if ((board[i][j] === 1 || board[i][j] === 3) && whiteTurn) {
                 tile.addEventListener("click", () => handlePawnClick(i, j));
-            } else if (board[i][j] === 2 && !whiteTurn) {
+            } else if ((board[i][j] === 2 || board[i][j] === 4) && !whiteTurn) {
                 tile.addEventListener("click", () => handlePawnClick(i, j));
             }
-            console.log(board[0])
         }
     }
     updateTurnIndicator(); // Update the turn display
-    checkForWinner(); // Check if a player has won
 }
+
 
 // Handle pawn selection
 function handlePawnClick(row, col) {
@@ -76,16 +76,17 @@ function highlightTile(row, col, middleRow = null, middleCol = null) {
 }
 
 // Get valid moves based on checkers rules
-// Get valid moves based on checkers rules
 function getValidMoves(row, col) {
     const moves = [];
     const captures = [];
     const isKing = board[row][col] === 3 || board[row][col] === 4;
 
+    console.log("Checking moves for:", { row, col, isKing });
+
     // Determine movement directions
     const directions = isKing 
         ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] // King moves in all diagonal directions
-        : (board[row][col] === 1 || board[row][col] === 3) 
+        : (board[row][col] === 1) 
             ? [[-1, -1], [-1, 1]] // White moves up
             : [[1, -1], [1, 1]];  // Black moves down
 
@@ -98,7 +99,7 @@ function getValidMoves(row, col) {
             newRow < 8 &&
             newCol >= 0 &&
             newCol < 8 &&
-            board[newRow][newCol] === 0
+            board[newRow][newCol] === 0 // The tile must be empty
         ) {
             moves.push({ row: newRow, col: newCol });
         }
@@ -115,14 +116,15 @@ function getValidMoves(row, col) {
             newRow < 8 &&
             newCol >= 0 &&
             newCol < 8 &&
-            board[newRow][newCol] === 0 && // Landing spot is empty
-            board[middleRow]?.[middleCol] !== 0 && // Middle spot is occupied
+            board[newRow][newCol] === 0 && // Landing spot must be empty
+            board[middleRow]?.[middleCol] !== 0 && // Middle spot must be occupied
             board[middleRow][middleCol] % 2 !== board[row][col] % 2 // Opponent's piece
         ) {
             captures.push({ row: newRow, col: newCol, middleRow, middleCol });
         }
     }
 
+    console.log("Moves:", moves, "Captures:", captures);
     return captures.length > 0 ? captures : moves;
 }
 
