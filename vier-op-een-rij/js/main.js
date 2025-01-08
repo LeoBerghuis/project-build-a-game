@@ -57,6 +57,7 @@ let selectedPlayerTwo;
 let board;
 let firstPlayerTurn;
 let counter = 0;
+let gameEnded = false;
 
 window.onload = () => {
   for (let i = 0; i < allPlayers.length; i++) {
@@ -108,6 +109,7 @@ function startGame() {
 }
 
 function loadBoard() {
+  gameEnded = false;
   board = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
@@ -132,59 +134,47 @@ function getCell(counter) {
 }
 
 function placeCell(column) {
-  let redWin;
-  let yellowWin;
-  let playerOneText;
-  let playerTwoText;
-  if (firstPlayerTurn === selectedPlayerOne) {
-    for (let row = board.length - 1; row >= 0; row--) {
-      if (board[row][column] === 0) {
-        board[row][column] = 1;
-        let cellNumber = getCell(row * 7 + column);
-        cellNumber.style.backgroundColor = selectedPlayerOne.color;
-        firstPlayerTurn = selectedPlayerTwo;
-        playerTurn.innerText = `${selectedPlayerTwo.username} turn`;
-        redWin = checkWinner(1);
-        if (redWin) {
-          playerOneText = selectedPlayerOne.username + " has won the game!";
-          showPopup(playerOneText);
-          selectedPlayerOne.xp += 100;
-          while (selectedPlayerOne.xp >= 500) {
-            selectedPlayerOne.level++;
-            selectedPlayerOne.xp = 0;
-          }
-          localStorage.setItem("playerObj", JSON.stringify(allPlayers));
-          checkLocalStorage();
-          showAllPlayers();
-          setTimeout(loadBoard, 1000);
-        }
-        break;
+  for (let row = board.length - 1; row >= 0; row--) {
+    if (board[row][column] === 0) {
+      if (gameEnded === true) {
+        alert('Already a winner, Please wait!');
+        return;
       }
-    }
-  } else {
-    for (let row = board.length - 1; row >= 0; row--) {
-      if (board[row][column] === 0) {
-        board[row][column] = 2;
-        let cellNumber = getCell(row * 7 + column);
-        cellNumber.style.backgroundColor = selectedPlayerTwo.color;
-        firstPlayerTurn = selectedPlayerOne;
-        playerTurn.innerText = `${selectedPlayerOne.username} player turn`;
-        yellowWin = checkWinner(2);
-        if (yellowWin) {
-          playerTwoText = selectedPlayerTwo.username + " has won the game!";
-          showPopup(playerTwoText);
-          selectedPlayerTwo.xp += 100;
-          while (selectedPlayerTwo.xp >= 500) {
-            selectedPlayerTwo.level++;
-            selectedPlayerTwo.xp = 0;
-          }
-          localStorage.setItem("playerObj", JSON.stringify(allPlayers));
-          checkLocalStorage();
-          showAllPlayers();
-          setTimeout(loadBoard, 1000);
+
+      const currentPlayer = firstPlayerTurn;
+      const currentColor = currentPlayer.color;
+      const currentToken = currentPlayer === selectedPlayerOne ? 1 : 2;
+
+      board[row][column] = currentToken;
+      const cellNumber = getCell(row * 7 + column);
+      cellNumber.style.backgroundColor = currentColor;
+
+      const win = checkWinner(currentToken);
+
+      if (win) {
+        gameEnded = true;
+
+        const winnerText = `${currentPlayer.username} has won the game!`;
+        showPopup(winnerText);
+
+        currentPlayer.xp += 100;
+        while (currentPlayer.xp >= 500) {
+          currentPlayer.level++;
+          currentPlayer.xp -= 500;
         }
-        break;
+
+        localStorage.setItem("playerObj", JSON.stringify(allPlayers));
+        checkLocalStorage();
+        showAllPlayers();
+
+        setTimeout(loadBoard, 1000);
+        return;
       }
+
+      firstPlayerTurn = currentPlayer === selectedPlayerOne ? selectedPlayerTwo : selectedPlayerOne;
+      playerTurn.innerText = `${firstPlayerTurn.username} turn`;
+
+      break;
     }
   }
 }
