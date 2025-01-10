@@ -53,18 +53,7 @@ h1 {
     -webkit-text-stroke-color: rgb(120, 68, 0);
 }
 
-/* .game-container {
-    position: relative;
-    height: 640px;
-    width: 640px;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: px;
-    border: solid 10px rgb(155, 73, 38);
-    background-color: rgb(155, 73, 38);
-} */
- 
+
 #gameboard {
     width: 480px;
     height: 480px;
@@ -85,6 +74,22 @@ h1 {
     position: relative;
 }
 
+.square.selected {
+    position: relative;
+}
+
+.square.selected::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(34, 124, 16, 0.342); /* transparent overlay */
+    z-index: 1;
+    pointer-events: none;
+}
+
 .whitecell{
     background-color: rgb(255, 195, 99);
 }
@@ -99,4 +104,45 @@ h1 {
 
 .brown{
     background-color: rgb(224, 130, 35);
+}
+
+.piece{
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.player-details {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    width: 480px;
+    height: 64px;
+    background-image: linear-gradient(rgb(187, 122, 36), rgb(240, 170, 58));
+    border: solid 5px rgb(90, 54, 7);
+    border-radius: 15px;
+}
+
+.stat-text {
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    font-size: 45px;
+    -webkit-text-stroke: 1px;
+    -webkit-text-stroke-color: black;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+.turn-input {
+    margin-left: -120px
+}
+
+.highlight {
+    background-color: rgba(83, 255, 48, 0.342); /* transparent overlay */
 }

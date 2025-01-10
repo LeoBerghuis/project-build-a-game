@@ -1,223 +1,141 @@
 
-//https://github.com/SahilM2063/Simple-Chess-Using-Javascript/blob/main/app.js
-//this is what you're learning from (copying but also figuring out how it works)
 
 
-const gameBoard = document.querySelector("#gameboard");
-const width = 8
 
-let playerTurn = "black";
+const boardSquares = document.querySelectorAll(".square");
+let board = [];
 
-const startPieces = [
-    Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook,
-    Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn,
-    "", "", "", "", "", "", "", "", 
-    "", "", "", "", "", "", "", "", 
-    "", "", "", "", "", "", "", "", 
-    "", "", "", "", "", "", "", "", 
-    Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn,
-    Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook,
-]
+//updates behind the scenes board
+function gameLoop(){
 
-function createBoard() {
-    startPieces.forEach((startPiece, i) => {
-        
-        const square = document.createElement("div");
-        square.classList.add("square");
-        square.innerHTML = startPiece
-
-        square.setAttribute("square-id", i);
-        square.firstChild?.setAttribute("draggable", true)
-
-        const row = Math.floor((63 - i) / 8) + 1;
-
-        if (row % 2 === 0) {
-            square.classList.add(i % 2 === 0 ? "beige"  : "brown");
-        } else {
-            square.classList.add(i % 2 === 0 ? "brown" : "beige");
+    for (let i=0;i<boardSquares.length;i++){
+        if (boardSquares[i].firstChild){
+            board[i] = boardSquares[i].firstChild.id;
         }
-
-        if (i <= 15) {
-            square.firstChild.firstChild.classList.add("black");
+        else {
+            board[i] = ""
         }
-        if (i >= 48) {
-            square.firstChild.firstChild.classList.add("white");
-        }
-        
-        gameBoard.append(square);
-    })
-}
-
-
-createBoard();
-
-
-const allSquares = document.querySelectorAll("#gameboard .square");
-
-allSquares.forEach( square =>{
-    square.addEventListener("dragstart", dragstart);
-    square.addEventListener('dragover', dragover);
-    square.addEventListener('drop', dragdrop);
-})
-
-function dragstart(e) {
-    startPositionId = e.target.parentNode.getAttribute("square-id")
-    draggedElement = e.target
-    console.log("DRAG")
-}
-
-function dragover(e) {
-    e.preventDefault();
-    console.log("OVER")
-}
-
-function dragdrop(e) {
-    e.stopPropagation();
-    console.log("DROP")
-
-
-    const correctTurn = draggedElement.firstChild.classList.contains(playerTurn);
-    const taken = e.target.classList.contains('piece');
-    const valid = null //coming soon
-    const opponentTurn = playerTurn === "white" ? "black" : "white";
-    const takenByOpponent = e.target.firstChild.classList.contains(opponentTurn);
-
-    
-    if (correctTurn){
-        //if true the piece is allowed to move(later will also check valid)
     }
 }
 
-// const pieces = {
-//     none:   {
-//         name: "",
-//         Movement: null,
-//         value: null,
-//     },
-//     pawn:{
-//         name: "P",
-//         Movement: "",
-//         value: 1
-//     },
-//     knight:{
-//         name: "N",
-//         Movement: "",
-//         value: 3
-//     },
-//     bishop:{
-//         name: "B",
-//         Movement: "",
-//         value: 3
-//     },
-//     rook:{
-//         name: "R",
-//         Movement: "",
-//         value: 5
-//     },
-//     queen:{
-//         name: "Q",
-//         Movement: "",
-//         value: 9
-//     },
-//     king:{
-//         name: "K",
-//         Movement: "",
-//         value: null
-//     },
-// }
-
-// const BOARD_SIZE = 8;
-// const board = createEmptyBoard();
-
-// const gameContainer = document.querySelector(".game-container");
-
-// //=====================
-// var chessTable = document.createElement('table'); 
-// initBoard();
-// updateBoard();
-// gameLoop();
-
-// board.addEventListener("click", (e)=>{
-//     console.log(e)
-// })
-
-
-// //===========================
-
-// //functions
-// function gameLoop(){
-//     requestAnimationFrame(gameLoop);
-//     updateBoard();
-// }
-
-// function createEmptyBoard() {
-//     const letters = 'abcdefgh';
-//     const board = {};
-//     for (let letter of letters) {
-//         board[letter] = {};
-//         for (let num = 1; num <= BOARD_SIZE; num++) {
-//             board[letter][num] = { piece: pieces.none, color: '' };
-//         }
-//     }
-//     return board;
-// }
-
-// function initBoard() { 
-//     // Create rows and cells
-//     for (let i = 0; i < 8; i++) {
-//         const tr = document.createElement('tr');
-//         for (let j = 0; j < 8; j++) {
-//             const className = (i + j) % 2 === 0 ? 'cell whitecell' : 'cell blackcell';
-//             tr.appendChild(createCell(className));
-//         }
-//         chessTable.appendChild(tr);
-//     }
-//     gameContainer.appendChild(chessTable);
-
-//     // Set initial pieces
-//     const pieceArray = [pieces.rook, pieces.knight, pieces.bishop, pieces.queen, pieces.king, pieces.bishop, pieces.knight, pieces.rook];
-//     setInitialPiece(Object.values(board.a), pieceArray); // Black main pieces
-//     setInitialPiece(Object.values(board.h), pieceArray); // White main pieces
-
-//     // Pawns
-//     Object.values(board.b).forEach(cell => cell.piece = pieces.pawn);
-//     Object.values(board.g).forEach(cell => cell.piece = pieces.pawn);
-// }
-
-// function createCell(className) {
-//     const td = document.createElement('td');
-//     td.setAttribute('class', className);
-//     return td;
-// }
-
-// function setInitialPiece(row, pieceArray) {
-//     pieceArray.forEach((piece, i) => {
-//         row[i].piece = piece;
-//     });
-// }
-
-
-// function updateBoard() {
-//     const cells = document.querySelectorAll(".cell");
-//     const rows = Object.values(board);
-
-//     let cellIndex = 0;
-//     rows.forEach(row => {
-//         Object.values(row).forEach(cell => {
-//             cells[cellIndex].innerText = cell.piece.name || '';
-//             cellIndex++;
-//         });
-//     });
-// }
+gameLoop()
 
 
 
-// function movePiece(startrow, startcol, endrow, endcol) {
-//     // const [startCol, startRow] = start;
-//     // const [endCol, endRow] = end;
+let firstTurnWhite = true;
+let firstTurnBlack = true;
+let selected = ""; //toggle bool for the ability to select and unselect... deselect? remove selection from piece
+let squareSelection = ''; //stored value of which square is currently selected
+let pieceSelection = '';
+let playerTurn = "white";
+const turnDisplay = document.querySelector(".turn-input");
+turnDisplay.textContent = playerTurn
 
-//     const piece = board[startrow][startcol].piece;
-//     board[endrow][endcol].piece = piece;
-//     board[startrow][startcol].piece = pieces.none;
-// }
 
+
+gameBoard.addEventListener("click", handleSquareClick);
+
+function handleSquareClick(e) {
+    const square = e.target.closest(".square"); // Get the closest square element
+    if (!square) return;
+
+    const squareId = square.getAttribute("square-id");
+
+    if (!selected) {
+        selectSquare(square, squareId);
+        console.log(pieceSelection)
+    } else if (squareId === squareSelection) {
+        unselectSquare(square);
+    } else {
+        const legalMoves = getLegalMoves(Number(squareSelection), pieceSelection, board, playerTurn);
+        if (legalMoves.includes(Number(squareId))) {
+            movePiece(squareSelection, squareId); // Perform the move
+        } else {
+            console.log("Invalid move");
+        }
+    }
+}
+
+function selectSquare(square, squareId) {
+    const piece = square.querySelector(".piece");
+    if (!piece) return;
+    if (!piece.classList.contains(`${playerTurn}`)) return;
+
+    square.classList.add("selected");
+    selected = true;
+    squareSelection = squareId;
+    pieceSelection = piece.id
+
+    if (playerTurn == "white"){
+        const legalMoves = getLegalMoves(Number(squareId), piece.id, board, playerTurn, firstTurnWhite);
+        for (let i=0; i<legalMoves.length;i++){
+            const square = document.querySelector(`[square-id="${legalMoves[i]}"]`);
+            
+            if (square) {
+                square.classList.add("highlight");
+            }
+        }
+
+        
+    }
+    else {
+        const legalMoves = getLegalMoves(Number(squareId), piece.id, board, playerTurn, firstTurnBlack);
+        for (let i=0; i<legalMoves.length;i++){
+            const square = document.querySelector(`[square-id="${legalMoves[i]}"]`);
+            
+            if (square) {
+                square.classList.add("highlight");
+            }
+        }
+    }
+    
+}
+
+
+function unselectSquare(square) {
+    square.classList.remove("selected");
+    selected = false;
+    squareSelection = '';
+    const highlighted = document.querySelectorAll(".highlight");
+    for (i=0;i<highlighted.length;i++){
+        highlighted[i].classList.remove("highlight");
+    }
+}
+
+
+function changePlayer() {
+    if (playerTurn === 'black') {
+        playerTurn = 'white';
+        turnDisplay.textContent = playerTurn
+        firstTurnBlack = false;
+    } else {
+        playerTurn = 'black'
+        turnDisplay.textContent = playerTurn
+        firstTurnWhite = false;
+    }
+}
+
+
+function movePiece(fromSquareId, toSquareId) {
+    const fromSquare = document.querySelector(`[square-id="${fromSquareId}"]`);
+    const toSquare = document.querySelector(`[square-id="${toSquareId}"]`);
+
+    const piece = fromSquare.querySelector(".piece");
+
+    // Move the piece visually
+    if (piece) {
+        toSquare.appendChild(piece); // Move piece to the new square
+    }
+
+    // Update the internal board state
+    board[toSquareId] = board[fromSquareId]; // Move the piece in the board array
+    board[fromSquareId] = ""; // Clear the original square in the board array
+
+    // Clear highlights and selection
+    unselectSquare(fromSquare);
+
+    // Switch turn
+    playerTurn = playerTurn === "white" ? "black" : "white";
+
+    console.log(`Moved piece from ${fromSquareId} to ${toSquareId}`);
+}
