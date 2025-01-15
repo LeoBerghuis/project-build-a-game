@@ -13,12 +13,20 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-image: linear-gradient(rgb(120, 68, 0), rgb(219, 152, 43), rgb(120, 68, 0));
+    
 }
 
 nav {
     background-color: rgb(245, 165, 74);
     border: solid 2px rgb(120, 68, 0);
     height: 48px;
+}
+
+main {
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
 }
 
 .button {
