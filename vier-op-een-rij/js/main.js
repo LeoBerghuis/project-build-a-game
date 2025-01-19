@@ -48,7 +48,7 @@ const popup = document.querySelector(".popup");
 const startGameBtn = document
   .querySelector(".start-game")
   .addEventListener("click", startGame);
-const allPlayers = JSON.parse(localStorage.getItem("playerObj"));
+
 
 let activePlayerOne;
 let activePlayerTwo;
@@ -59,14 +59,21 @@ let firstPlayerTurn;
 let counter = 0;
 let gameEnded = false;
 
-window.onload = () => {
-  for (let i = 0; i < allPlayers.length; i++) {
-    const player = allPlayers[i];
+window.onload = initialLoad();
+
+function getLocalStorage() {
+  return allPlayers = JSON.parse(localStorage.getItem("playerObj"));
+}
+
+function initialLoad() {
+  players = getLocalStorage();
+  for (let i = 0; i < players.length; i++) {
+    const player = players[i];
     playerOne.innerHTML += `<option value="${player.username}">${player.username}</option>`;
     playerTwo.innerHTML += `<option value="${player.username}">${player.username}</option>`;
   }
   loadBoard();
-};
+}
 
 function showPopup(text) {
   popup.innerHTML = text;
@@ -78,12 +85,14 @@ function showPopup(text) {
 }
 
 function startGame() {
+  let localStoragePlayers = getLocalStorage();
+
   const selectedPlayerUsernameOne = playerOne.value;
   const selectedPlayerUsernameTwo = playerTwo.value;
-  selectedPlayerOne = allPlayers.find(
+  selectedPlayerOne = localStoragePlayers.find(
     (player) => player.username === selectedPlayerUsernameOne
   );
-  selectedPlayerTwo = allPlayers.find(
+  selectedPlayerTwo = localStoragePlayers.find(
     (player) => player.username === selectedPlayerUsernameTwo
   );
 
@@ -163,7 +172,7 @@ function placeCell(column) {
           currentPlayer.xp -= 500;
         }
 
-        localStorage.setItem("playerObj", JSON.stringify(allPlayers));
+        localStorage.setItem("playerObj", JSON.stringify(getLocalStorage()));
         checkLocalStorage();
         showAllPlayers();
 

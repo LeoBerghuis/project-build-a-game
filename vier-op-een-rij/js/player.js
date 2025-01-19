@@ -60,7 +60,20 @@ function checkLocalStorage() {
 
 function changeActivePlayer() {
   startSreen.style.display = "flex";
+  let getLatestPlayers = JSON.parse(localStorage.getItem("playerObj"));
+  playerOne.innerHTML = ``;
+  playerTwo.innerHTML = ``;
+  selectedPlayerOne = null;
+  selectedPlayerTwo = null;
 
+  for (let i = 0; i < getLatestPlayers.length; i++) {
+    const player = getLatestPlayers[i];
+    playerOne.innerHTML += `<option value="${player.username}">${player.username}</option>`;
+    playerTwo.innerHTML += `<option value="${player.username}">${player.username}</option>`;
+  }
+  loadBoard();
+  console.log(selectedPlayerTwo.color);
+  console.log(selectedPlayerOne.color);
   if (settingsWindow.classList.contains("active")) {
     settingsWindow.classList.toggle("active");
   }
@@ -99,21 +112,18 @@ function showAllPlayers() {
     <div class="edit-section" data-index="${i}">
 <div class="input-group input-group-sm mb-3">
     <span class="input-group-text" id="inputGroup-sizing-sm">Edit username</span>
-    <input type="text" class="form-control edit-username" aria-label="Sizing example input" value="${
-      players.username
-    }" aria-describedby="inputGroup-sizing-sm">
+    <input type="text" class="form-control edit-username" aria-label="Sizing example input" value="${players.username
+      }" aria-describedby="inputGroup-sizing-sm">
   </div>
         <div class="input-group input-group-sm mb-3">
     <span class="input-group-text" id="inputGroup-sizing-sm">Edit bio</span>
-    <input type="text" class="form-control edit-bio" aria-label="Sizing example input" value="${
-      players.bio
-    }" aria-describedby="inputGroup-sizing-sm">
+    <input type="text" class="form-control edit-bio" aria-label="Sizing example input" value="${players.bio
+      }" aria-describedby="inputGroup-sizing-sm">
   </div>
        <div class="input-group input-group-sm mb-3">
     <span class="input-group-text" id="inputGroup-sizing-sm">Edit team</span>
-    <input type="text" class="form-control edit-team" aria-label="Sizing example input" value="${
-      players.team
-    }" aria-describedby="inputGroup-sizing-sm">
+    <input type="text" class="form-control edit-team" aria-label="Sizing example input" value="${players.team
+      }" aria-describedby="inputGroup-sizing-sm">
   </div>
         <div class="team-color">
             <p> Change team color</p>
